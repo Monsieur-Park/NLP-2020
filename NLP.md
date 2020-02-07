@@ -60,14 +60,44 @@ tags:         NLP, Textmining
 
   * Plaintext-Dateien importieren  
   * Umwandlung des Dateiformats in Tidytext-Format 
-    * Dataframe, in dem pro Zeile nur ein Token (z.B. Wort) steht.
-  
+    * Tidytext: Dataframe, in dem pro Zeile nur ein Token (z.B. Wort) steht.
+  * Annotation der Entitäten durch SpaCy-Parser
+  * Extraktion der Entitäten
 ```
 mycorpus_tidy <-tidy(mycorpus) 
 
+corpus_spacyr <- mycorpus_tidy %>% 
+  unnest_tokens(word, text) %>% 
+  anti_join(stop_words) %>% 
+  count(title, word, sort=TRUE)%>%
+  mutate(ner = map(word, ~spacy_parse(., entity = TRUE)))
+
+entity_df <- corpus_spacyr %>% 
+  select(word, ner) %>% 
+  mutate(entity = map(ner, ~ count(., entity, sort = TRUE) )) %>% 
+  unnest(entity)
+
+
+entity_df %>% 
+  group_by(entity) %>% 
+  summarise(entity_sum = sum(n)) %>% 
+  arrange(desc(entity_sum)) %>% 
+  filter(entity != "")
+```
+```
+#ploten
+entity_df %>% 
+  group_by(entity) %>% 
+  summarise(entity_sum = sum(n)) %>% 
+  arrange(desc(entity_sum)) %>% 
+  filter(entity != "") %>%
+  ggplot(., aes(reorder(entity, -entity_sum), entity_sum, fill = entity)) +
+  geom_bar(stat = "identity") +
+  labs(x = "ENTITY", y = "Anzahl")  +
+  ggtitle("Anzahl der Entitäten")
 ```
   
-  ![NER-Plot](./Image/NER-Plot.jpeg)
+![NER_Plot](./Image/NER_Plot.jpeg)
 
   ### Text Klassifikation
   
