@@ -123,9 +123,71 @@ tags:         NLP, Textmining
 
   ### Text Klassifikation
   
+  * Berechnng des TF-IDF (Term Frequency – Inversed Document Frequency)
+    * Term Frequency: wie häufig ein Wort im gesamten Dokument vorkommt. 
+    * Inversed Document Frequency: wie häufig ein Wort nur in bestimmten Dokumenten vorkommt. 
+    
+  * Berechnung der Cosine- Ähnlichkeit 
+    * Anwendung der Funktion pairwise_similarity aus dem Package widyr[3]
+   
+  * HowTO
   
+    * Tokenisierung der Texte 
+  ```
+  text_tidy <- mycorpus_tidy %>% select(title, text)
+    text_tidy %>% 
+    slice(1)
+
+  text_tidy %>% 
+    unnest_tokens(word, text) %>% 
+    anti_join(stop_words)
+  ```
+  
+   * Berechnung der TF-IDF 
+  ```
+  (text_tfidf <- text_tidy %>% 
+    unnest_tokens(word, text) %>% 
+    anti_join(stop_words) %>% 
+    count(title, word, sort=TRUE) %>% 
+    bind_tf_idf(word, title, n))
+    
+  ```  
+  * Berechnung der Cosine- Ähnlichkeit 
+  ```
+  library(widyr)
+    text_simil<- text_tfidf %>% 
+      widyr::pairwise_similarity(title, word, tf_idf) %>% 
+      arrange(desc(similarity))
+      
+      
+   # A tibble: 20 x 3
+      item1                           item2                           similarity
+     <chr>                           <chr>                                <dbl>
+    1 constitution_of_burma           british_south_africa_act           0.251  
+    2 british_south_africa_act        constitution_of_burma              0.251  
+    3 constitution_of_burma           british_government_of_burma_act    0.235  
+    4 british_government_of_burma_act constitution_of_burma              0.235  
+    5 british_north_american_act      british_south_africa_act           0.134  
+    6 british_south_africa_act        british_north_american_act         0.134  
+    7 british_south_africa_act        british_government_of_burma_act    0.0584 
+    8 british_government_of_burma_act british_south_africa_act           0.0584 
+    9 british_north_american_act      constitution_of_burma              0.0397 
+   10 constitution_of_burma           british_north_american_act         0.0397 
+   11 constitution_of_ireland         constitution_of_burma              0.0376 
+   12 constitution_of_burma           constitution_of_ireland            0.0376 
+   13 british_north_american_act      british_government_of_burma_act    0.0164 
+   14 british_government_of_burma_act british_north_american_act         0.0164 
+   15 constitution_of_ireland         british_south_africa_act           0.0102 
+   16 british_south_africa_act        constitution_of_ireland            0.0102 
+   17 constitution_of_ireland         british_government_of_burma_act    0.00617
+   18 british_government_of_burma_act constitution_of_ireland            0.00617
+   19 constitution_of_ireland         british_north_american_act         0.00152
+   20 british_north_american_act      constitution_of_ireland            0.00152    
+  ```
 
   [1] : https://en.wikisource.org/wiki/Hong_Kong_Royal_Instructions_1917
   
   [2] : https://spacy.io/
+  
+  [3] : https://cran.r-project.org/web/packages/widyr/index.html
 
