@@ -121,7 +121,7 @@ tags:         NLP, Textmining
   unnest(ent)
   ```
 
-  ### Text Klassifikation
+ ### Text Klassifikation
   
   * Berechnng des TF-IDF (Term Frequency – Inversed Document Frequency)
     * Term Frequency: wie häufig ein Wort im gesamten Dokument vorkommt. 
