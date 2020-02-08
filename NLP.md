@@ -154,7 +154,6 @@ tags:         NLP, Textmining
   ```  
   * Berechnung der Cosine- Ähnlichkeit 
   ```
-  library(widyr)
     text_simil<- text_tfidf %>% 
       widyr::pairwise_similarity(title, word, tf_idf) %>% 
       arrange(desc(similarity))
