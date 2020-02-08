@@ -33,7 +33,7 @@ tags:         NLP, Textmining
 
 * Aufbereitung der weiteren Daten 
   * Beispiel Hongkong 
-  * [Hong Kong Royal Instructions 1917][^1]
+  * [Hong Kong Royal Instructions 1917][1]
   
   
 * Eventuelle Kategorisierung der Daten nach Kontinent? 
