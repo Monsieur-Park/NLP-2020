@@ -151,6 +151,22 @@ tags:         NLP, Textmining
     count(title, word, sort=TRUE) %>% 
     bind_tf_idf(word, title, n))
     
+    
+    # A tibble: 8,523 x 6
+   title                           word         n     tf   idf  tf_idf
+   <chr>                           <chr>    <int>  <dbl> <dbl>   <dbl>
+ 1 british_government_of_burma_act burma      439 0.0307 0.916 0.0282 
+ 2 british_government_of_burma_act act        409 0.0286 0     0      
+ 3 british_government_of_burma_act governor   296 0.0207 0.223 0.00462
+ 4 british_south_africa_act        union      233 0.0293 0.511 0.0150 
+ 5 constitution_of_burma           union      209 0.0232 0.511 0.0119 
+ 6 british_south_africa_act        governor   204 0.0256 0.223 0.00572
+ 7 british_government_of_burma_act person     194 0.0136 0     0      
+ 8 british_north_american_act      canada     192 0.0314 1.61  0.0505 
+ 9 british_south_africa_act        council    181 0.0228 0     0      
+10 british_government_of_burma_act section    168 0.0118 0     0      
+# ... with 8,513 more rows
+    
   ```  
   * Berechnung der Cosine- Ähnlichkeit 
   ```
