@@ -1,0 +1,105 @@
+---
+title: "NER-Erkenung"
+author: "Yohan Park"
+date: "6 2 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Package import
+
+```{r}
+library(readtext)
+library(quanteda)
+library(tidytext)
+library(spacyr)
+library(tidyverse)
+library(tidytext)
+
+
+#spacy_install()
+spacy_initialize("en_core_web_md")
+```
+
+## Voreinstellung 
+```{r}
+options("mc.cores" = 4L)      # parallel processing
+options(scipen = 999)         # no scientific notation of numbers
+quanteda_options(verbose = TRUE,
+                 threads = 3,
+                 print_dfm_max_ndoc  = 5,
+                 print_dfm_max_nfeat = 5,
+                 language_stemmer    = "en"
+)
+```
+
+## TExte Importieren, Umwandlng in Tidytext-Format
+```{r}
+mycorpus <- readtext("data/constitutions/*.txt",
+                     docvarsfrom = "filenames",
+                     dvsep = "_-_",
+                     docvarnames = c("year", "code", "country", "title"),
+                     encoding = "UTF-8") %>%
+  corpus()
+
+# user shorter names for documents instead of full filenames
+docnames(mycorpus) <- docvars(mycorpus, "code")
+
+
+mycorpus_tidy <-tidy(mycorpus)
+```
+
+## NER-Annotierung 
+```{r}
+set.seed(777)
+
+
+corpus_spacyr <- mycorpus_tidy %>% 
+  unnest_tokens(word, text) %>% 
+  anti_join(stop_words) %>% 
+  count(title, word, sort=TRUE)%>%
+  mutate(ner = map(word, ~spacy_parse(., entity = TRUE)))
+
+
+spacy_finalize()
+```
+
+## Extraktion, Zusammenfassung des Ergebnisses
+```{r}
+entity_df <- corpus_spacyr %>% 
+  select(word, ner) %>% 
+  mutate(entity = map(ner, ~ count(., entity, sort = TRUE) )) %>% 
+  unnest(entity)
+
+
+entity_df %>% 
+  group_by(entity) %>% 
+  summarise(entity_sum = sum(n)) %>% 
+  arrange(desc(entity_sum)) %>% 
+  filter(entity != "")
+```
+
+
+## Visualisierung
+```{r}
+entity_df %>% 
+  group_by(entity) %>% 
+  summarise(entity_sum = sum(n)) %>% 
+  arrange(desc(entity_sum)) %>% 
+  filter(entity != "") %>%
+  ggplot(., aes(reorder(entity, -entity_sum), entity_sum, fill = entity)) +
+  geom_bar(stat = "identity") +
+  labs(x = "ENTITY", y = "Anzahl")  +
+  ggtitle("Anzahl der Entitäten")
+
+```
+
+## Extraktion der Entitäten
+```{r}
+Entitity_df <- corpus_spacyr %>% 
+  mutate(ent = map(ner, ~ filter(., str_detect(entity, paste(c("GPE", "PERSON", "NORP", "ORDINAL", "LANGUAGE","ORG"),collapse = '|'))) )) %>% 
+  unnest(ent)
+```
