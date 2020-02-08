@@ -71,13 +71,14 @@ tags:         NLP, Textmining
     anti_join(stop_words) %>% 
     count(title, word, sort=TRUE)%>%
     mutate(ner = map(word, ~spacy_parse(., entity = TRUE)))
-
+  
   entity_df <- corpus_spacyr %>% 
     select(word, ner) %>% 
     mutate(entity = map(ner, ~ count(., entity, sort = TRUE) )) %>% 
     unnest(entity)
-
-
+  ```
+  * Zusammenfassung der erkannten Entitäten
+  ```
   entity_df %>% 
     group_by(entity) %>% 
     summarise(entity_sum = sum(n)) %>% 
@@ -111,6 +112,14 @@ tags:         NLP, Textmining
   ```
   
   ![NER_Plot](./Image/NER_Plot.jpeg)
+  
+  * Extraktion der einzelnen Entitäten ("GPE", "PERSON", "NORP", "ORDINAL", "LANGUAGE","ORG")
+  
+  ```
+  Entitity_df <- corpus_spacyr %>% 
+  mutate(ent = map(ner, ~ filter(., str_detect(entity, paste(c("GPE", "PERSON", "NORP", "ORDINAL", "LANGUAGE","ORG"),collapse = '|'))) )) %>% 
+  unnest(ent)
+  ```
 
   ### Text Klassifikation
   
