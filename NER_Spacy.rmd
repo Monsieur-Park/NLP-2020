@@ -102,4 +102,6 @@ entity_df %>%
 Entitity_df <- corpus_spacyr %>% 
   mutate(ent = map(ner, ~ filter(., str_detect(entity, paste(c("GPE", "PERSON", "NORP", "ORDINAL", "LANGUAGE","ORG"),collapse = '|'))) )) %>% 
   unnest(ent)
+Entitity_df
+  
 ```
