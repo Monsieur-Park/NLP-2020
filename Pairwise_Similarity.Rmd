@@ -1,0 +1,72 @@
+---
+title: "Pairwise_Similarity"
+author: "Yohan Park"
+date: "6 2 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# === Set defaults and options ===
+options("mc.cores" = 4L)      # parallel processing
+options(scipen = 999)         # no scientific notation of numbers
+quanteda_options(verbose = TRUE,
+                 threads = 3,
+                 print_dfm_max_ndoc  = 5,
+                 print_dfm_max_nfeat = 5,
+                 language_stemmer    = "en"
+)
+
+```
+
+```{r}
+mycorpus <- readtext("data/constitutions/*.txt",
+                     docvarsfrom = "filenames",
+                     dvsep = "_-_",
+                     docvarnames = c("year", "code", "country", "title"),
+                     encoding = "UTF-8") %>%
+  corpus()
+
+# user shorter names for documents instead of full filenames
+docnames(mycorpus) <- docvars(mycorpus, "code")
+
+mycorpus_tidy <-tidy(mycorpus)
+
+
+```
+
+## Tokenisierung der Texte
+```{r}
+
+text_tidy %>% 
+  unnest_tokens(word, text) %>% 
+  anti_join(stop_words)
+
+```
+
+## Berechnung der TF-IDF
+
+```{r}
+(text_tfidf <- text_tidy %>% 
+    unnest_tokens(word, text) %>% 
+    anti_join(stop_words) %>% 
+    count(title, word, sort=TRUE) %>% 
+    bind_tf_idf(word, title, n))
+
+```
+
+
+## Berechnung der Cosine- Ähnlichkeit
+```{r}
+library(widyr)
+
+text_simil<- text_tfidf %>% 
+  widyr::pairwise_similarity(title, word, tf_idf) %>% 
+  arrange(desc(similarity))
+
+```
+
