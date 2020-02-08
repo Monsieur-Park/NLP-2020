@@ -143,7 +143,8 @@ tags:         NLP, Textmining
     anti_join(stop_words)
   ```
   
-    * Berechnung der TF-IDF 
+   * Berechnung der TF-IDF 
+    
   ```
   (text_tfidf <- text_tidy %>% 
     unnest_tokens(word, text) %>% 
