@@ -33,7 +33,7 @@ tags:         NLP, Textmining
 
 * Aufbereitung der weiteren Daten 
   * Beispiel Hongkong 
-  * [Hong Kong Royal Instructions 1917][1]
+  * [Hong Kong Royal Instructions 1917][^1]
   
   
 * Eventuelle Kategorisierung der Daten nach Kontinent? 
@@ -185,7 +185,7 @@ tags:         NLP, Textmining
    20 british_north_american_act      constitution_of_ireland            0.00152    
   ```
 
-  [1] : https://en.wikisource.org/wiki/Hong_Kong_Royal_Instructions_1917
+  [^1] : https://en.wikisource.org/wiki/Hong_Kong_Royal_Instructions_1917
   
   [2] : https://spacy.io/
   
