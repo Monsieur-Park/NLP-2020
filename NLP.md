@@ -53,7 +53,7 @@ tags:         NLP, Textmining
   
 * Library für NER: 
   * Stanford Named Entity Tagger
-  * Spacy [2]
+  * Spacy [^2]
   * Blackstone (Spacy-Modell)
 
 * HowTo:
@@ -187,7 +187,7 @@ tags:         NLP, Textmining
 
   [^1] : https://en.wikisource.org/wiki/Hong_Kong_Royal_Instructions_1917
   
-  [2] : https://spacy.io/
+  [^2] : https://spacy.io/
   
   [3] : https://cran.r-project.org/web/packages/widyr/index.html
 
