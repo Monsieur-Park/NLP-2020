@@ -1,0 +1,36 @@
+a:link,
+a:hover,
+a:focus,
+a:visited {
+    color: orange;
+}
+
+li:before {
+    color: orange;
+}
+
+.red {
+    color: steelblue;
+}
+
+.orange {
+    color: orange;
+    font-family: monospace;
+    font-size: 1.5em;
+}
+
+#rectangle {
+    width: 350px;
+    height: 280px;
+    background: none;
+    border-color: orange;
+    border-style: solid;
+    border-radius: 50px;
+    border-width: thick;
+    position: absolute;
+    /*margin-top: 500px;*/
+}
+
+h3 {
+    color: orange;
+}
