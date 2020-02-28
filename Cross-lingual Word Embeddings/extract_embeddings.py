@@ -9,7 +9,7 @@ langs_to_extract = ["en", "de","fr"]
 
 files_dico = {}
 
-# Open files for each language
+# Öffnen der Daten für jeweilige Sprachen 
 for l in langs_to_extract:
     files_dico[l] = codecs.open("concept_net_1706.300."+l,"w",encoding="utf-8")
 
