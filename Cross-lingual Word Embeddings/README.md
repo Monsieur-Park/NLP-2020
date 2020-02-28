@@ -6,14 +6,13 @@ tags:         NLP, Word Embeddings
 
 ---
 
-#  Cross-lingual Word Embeddings (CLWE) - Konzept und Idee:
+#  Multi-lingual Word Embeddings - Konzept und Idee:
 
-- [Mnolinguale Embeddings](#monolinguale-embeddings)
+- [Methodische Seite](#methodische-seite)
 
-- [Multilinguale Embeddings](#multilinguale-embeddings)
+- [Umsetzung](#umsetzung)
 
-## Monolinguale Embeddings 
-
-Fokusiert auf einsprachigen Modellen für Vektorisierung in verschiedenen Tasks 
+- [Fazit](#fazit)
+ 
 
 ![cross_ling](https://github.com/Monsieur-Park/NLP-2020/blob/master/Image/cross_ling.jpg?raw=true)
