@@ -1,5 +1,5 @@
 ---
-title:        Multi-lingual Word Embeddings - Konzept und Idee:
+title:        Multi-lingual Word Embeddings 
 author:       Yohan Park
 tags:         NLP, Word Embeddings
 ---
