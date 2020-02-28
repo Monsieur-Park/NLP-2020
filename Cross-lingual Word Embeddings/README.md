@@ -10,7 +10,7 @@ tags:         NLP, Word Embeddings
 
 - [Methodische Seite](#methodische-seite)
 
-- [Umsetzung](#umsetzung)
+- [Herangehensweise](#herangehensweise)
 
 - [Fazit](#fazit)
  
