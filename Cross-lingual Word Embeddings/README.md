@@ -1,6 +1,6 @@
 ---
 
-title:        Cross-lingual Word Embeddings- Konzept und Idee 
+title:        Multi-lingual Word Embeddings - Konzept und Idee:
 author:       Yohan Park
 tags:         NLP, Word Embeddings
 
